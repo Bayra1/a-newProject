@@ -1,62 +1,55 @@
+import { random } from "nanoid";
 import { pool } from "../db.js";
+import { v4 as id } from 'uuid';
 
- const getclients = async (req, res) => {
+// Look At All Information of Users
+const getusers = async (_, res) => {
     try {
-        const queryText = `SELECT * FROM clients`
-        const response = await pool.query(queryText)
+        const queryText = `SELECT * FROM clients`;
+        const response = await pool.query(queryText);
+
         console.log(response.rows);
-        res.send(response.rows)
+        res.send({ users: response.rows });
     } catch (error) {
         console.log('something wrong', error);
+        res.send('failed');
     }
 };
 
+// Looking For A Single User 
 const getOneUser = async (req, res) => {
     const { name, email, id } = req.body
     try {
         const queryText = `
-        SELECT * FROM clients WHERE name='${name}' AND email='${email}' OR id='${id}'
+        SELECT * FROM clients WHERE name=$1 OR email=$2 OR id=$3
         `;
-        const response = await pool.query(queryText)
+        const response = await pool.query(queryText, [name, email, id]);
+        res.send({ DesiredUser: response.rows })
     } catch (error) {
         console.log(error);
-        response.send('failed')
+        res.send('failed to be successful')
     }
 }
-
-const createTable = async (_, res) => {
-    try {
-        const tableQueryText = `
-        CREATE TABLE IF NOT EXISTS clients (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(225) NOT NULL,
-            email VARCHAR(225) NOT NULL
-        )`;
-        await pool.query(tableQueryText)
-        res.send("Your Table is just created successfully")
-    } catch (error) {
-        console.log("something goes wrong", error);
-        response.send("failed")
-    }
-}
-
+// Creating a new user
 const createUser = async (req, res) => {
-    const { name, email } = req.body
+    console.log(req.body);
+    const { name, email, password } = req.body
     try {
-        const queryText = "INSERT INTO clients (name, email) VALUES ($1, $2) RETURNING *"
-        const result = await pool.query(queryText, [name, email])
+        const queryText = "INSERT INTO clients (name, email, password) VALUES ($1, $2, $3) RETURNING *"
+        const result = await pool.query(queryText, [name, email, password])
         res.send(result.rows[0])
     } catch (error) {
         console.log(error);
         res.send("falied")
     }
 }
-
+//  A Delete command
 const deleteUser = async (req, res) => {
     const { name, email, id } = req.body
     try {
-        const queryText = `DELETE FROM clients WHERE (name='${name}' AND email='${email}' OR id='${id}')`
-        await pool.query(queryText);
+        const queryText = `DELETE FROM clients WHERE name=$1 OR email=$2 OR id=$3`
+        await pool.query(queryText, [name, email, id]);
+        res.send('A delete command is successfully completed')
         res.send("A budding process")
     } catch (error) {
         console.log('something wrong', error);
@@ -64,17 +57,17 @@ const deleteUser = async (req, res) => {
     }
 }
 
-const updateUser = async(req, res) => {
-    const {name, email, id} = req.body
+// An Update command is below
+const updateUser = async (req, res) => {
+    const { name, email, id } = req.body
     try {
-        const queryText = `UPDATE clients SET name='${name}', email='${email}' WHERE id='${id}'`
-        await pool.query(queryText)
+        const queryText = `UPDATE clients SET name=$1, email=$2 WHERE id=$3`
+        await pool.query(queryText, [name, email, id])
         res.send("set successful")
     } catch (error) {
-        console.log("something wrong");
+        console.log("something wrong", error);
         res.send("failed")
     }
 }
 
-export {getclients, createUser, getOneUser, createTable, deleteUser, updateUser}
-
+export { getusers, createUser, getOneUser, deleteUser, updateUser }

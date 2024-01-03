@@ -12,10 +12,15 @@ app.use('/users',user)
 app.post("/createTable", async (_, res) => {
     try {
         const tableQueryText = `
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            name VARCHAR(225) NOT NULL,
-            email VARCHAR(225) NOT NULL
+        CREATE TABLE IF NOT EXISTS newTable (
+            id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL,
+            password TEXT,
+            avatar_img BYTEA,
+            createdAt TIMESTAMP DEFAULT CURRENT_STAMP,
+            updatedAt TIMESTAMP DEFAULT CURRENT_STAMP,
+            currency_type TEXT DEFAULT 'MNT'
         )`; 
         await pool.query(tableQueryText)
         res.send("Your Table is just created successfully")
@@ -40,7 +45,7 @@ app.get("/AllUsers", async (_, res) => {
 app.get("/one", async(req, res) => {
     const { name, email } = req.body;
     try {
-        const queryText = `SELECT * FROM clients WHERE name='${name}' AND email='${email}'`
+        const queryText = `SELECT * FROM clients WHERE name='${name}' OR email='${email}'`
         const response = await pool.query(queryText);
         res.send(response.rows)
     } catch (error) {
