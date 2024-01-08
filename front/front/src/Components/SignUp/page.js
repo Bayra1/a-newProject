@@ -2,43 +2,29 @@
 import { useState } from "react"
 import axios from "axios"
 
-const backEnd = "http://localhost:8002/users"
+const backEnd = "http://localhost:8003/users"
 
 
-export default function LoginPage() {
+export default function SignUp() {
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [rePassword, setRePassword] = useState()
     const [showPassword, setShowPassword] = useState(false)
-    const [showRePassword, setShowRePassword] = useState(false)
+    // const [showRePassword, setShowRePassword] = useState(false)
 
     const VisibilityPassword = () => {
         setShowPassword(!showPassword)
     }
-    const ReVisbilityReP = () => {
-        setShowRePassword(!showRePassword)
-    }
+    // const ReVisbilityReP = () => {
+    //     setShowRePassword(!showRePassword)
+    // }
 
-    const HandSignIn = async () => {
+    const HandleSignIn = async () => {
+
         try {
-            if (password === rePassword) {
-                console.log(password, rePassword);
-                const userData = await axios.post(backEnd, {
-                    name,
-                    email,
-                    password,
-                    rePassword
-                });
-                console.log("This is Data of user", userData.data);
-            } else {
-                console.warn("must required");
-                // alert("hey dont cheat")
-            }
-
-
             if (name !== "" || name !== null) {
-                console.log(password, rePassword);
+                console.log(password);
                 const userData = await axios.post(backEnd, {
                     name,
                     email,
@@ -47,8 +33,7 @@ export default function LoginPage() {
                 });
                 console.log("This is Data of user", userData.data);
             } else {
-                const message = "This form has to be filled"
-                error.innerText = message.join(", ")
+                alert("The form has to be filled")
             }
         } catch (error) {
             console.log("something goes wrongly");
@@ -72,7 +57,6 @@ export default function LoginPage() {
                     <div className="text-center text-base font-normal font-serif mt-2 mb-[40px]">Sign up below to create your Wallet account</div>
 
                     <div className="flex flex-col gap-[25px] ">
-                        <div className="error"></div>
                         <input
                             className="flex h-[48px] p-[16px] items-center border rounded-2xl"
                             placeholder="Name"
@@ -97,14 +81,14 @@ export default function LoginPage() {
                             <div className="absolute mt-[10px] ml-[350px]"
                                 onClick={VisibilityPassword}>{showPassword ? "👁️" : "👁️‍🗨️"}</div>
                         </div>
-
-                        <div className="relative">
+                        
+                        {/* <div className="relative">
                             <input
                                 type={showRePassword ? "text" : "password"}
                                 className="w-[390px] h-[48px] p-[16px] border rounded-2xl"
                                 placeholder="Re-Password"
                                 value={rePassword}
-                                onChange={(e) => setShowRePassword(e.target.value)}
+                                onChange={(e) => setRePassword(e.target.value)}
                             />
                             <div
                                 className="absolute top-1/2 transform -translate-y-1/2 right-2 cursor-pointer"
@@ -112,10 +96,10 @@ export default function LoginPage() {
                             >
                                 {showRePassword ? "👁️" : "👁️‍🗨️"}
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
-                    <button className="mt-[40px]  bg-blue-600 rounded-2xl w-[384px] h-[48px] justify-center items-center p-[16px]" onClick={HandSignIn}>Sign in</button>
+                    <button className="mt-[40px]  bg-blue-600 rounded-2xl w-[384px] h-[48px] justify-center items-center p-[16px]" onClick={HandleSignIn}>Sign in</button>
                 </div>
             </div>
             <div className="h-screen w-6/12 bg-blue-600"></div>

@@ -70,4 +70,13 @@ const updateUser = async (req, res) => {
     }
 }
 
+const DeleteAllUser = async (req, res) => {
+    const { name, email, id } = req.body
+    try {
+        const queryText = `DELETE FROM `
+    } catch (error) {
+        console.log("something wrong");
+    }
+}
+
 export { getusers, createUser, getOneUser, deleteUser, updateUser }

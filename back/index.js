@@ -6,7 +6,7 @@ import { user } from "./router/user.js";
 import cors from "cors"
 
 const app = express()
-const PORT = 8002;
+const PORT = 8003;
 dotenv.config()
 app.use(cors())
 app.use(bp.json())
