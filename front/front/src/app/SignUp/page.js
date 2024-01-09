@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react"
 import axios from "axios"
+import { useRouter } from "next/navigation";
 
 const backEnd = "http://localhost:8003/users"
 
@@ -12,6 +13,7 @@ export default function SignUp() {
     const [rePassword, setRePassword] = useState()
     const [showPassword, setShowPassword] = useState(false)
     // const [showRePassword, setShowRePassword] = useState(false)
+    const router = useRouter()
 
     const VisibilityPassword = () => {
         setShowPassword(!showPassword)
@@ -32,6 +34,7 @@ export default function SignUp() {
                     rePassword
                 });
                 console.log("This is Data of user", userData.data);
+                router.push('/Loading')
             } else {
                 alert("The form has to be filled")
             }

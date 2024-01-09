@@ -1,4 +1,4 @@
-export function DashBoard() {
+export default function DashBoard() {
     return (
         <div>
             DashBoard

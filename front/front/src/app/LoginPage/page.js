@@ -3,8 +3,7 @@ import { useState } from "react"
 import axios from "axios"
 import { useRouter } from "next/navigation";
 
-const backEnd = "http://localhost:8003/users"
-
+const backEnd = "http://localhost:8003/users/one"
 
 export default function LoginPage() {
     const [email, setEmail] = useState()
@@ -21,7 +20,7 @@ export default function LoginPage() {
         router.push('/SignUp')
     }
     const NavigateDashBoard = () => {
-        router.push('/DashBoard')
+        router.push('/Dashboard')
     }
 
     const HandleSignIn = async () => {
@@ -30,17 +29,23 @@ export default function LoginPage() {
                 email,
                 password,
             });
-            
-            console.log(userData.data, "this is user data");
-            NavigateDashBoard();
+
+            if (userData.data === 'ExUser') {
+                NavigateDashBoard();
+            } else {
+                setError('The information doesnt match')
+                console.log(userData.data, "this is user data");
+            }
 
         } catch (error) {
-            setError("Invalid email or password. Please try again.");
+            setError('error', error);
             setTimeout(() => {
-                setError("");
-            }, 3000);
+                setError("Error");
+            }, 1000);
         }
     };
+
+
     return (
         <div className="flex w-full">
             <div className="h-screen w-6/12 flex items-center justify-center">
@@ -63,7 +68,7 @@ export default function LoginPage() {
                         <input className="flex h-[48px] p-[16px] items-center border rounded-2xl"
                             placeholder="Email"
                             value={email}
-                            onChange={(event) => setEmail(event.target.value)}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
 
                         <div className="flex h-[48px]">
@@ -88,15 +93,15 @@ export default function LoginPage() {
                             <div>Dont have any Account ? </div>
                             <button
                                 onClick={GoSignPage}
-                                className="text-sky-400">Sign Up
+                                className="text-sky-400">
+                                Sign Up
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div className="h-screen w-6/12 bg-blue-600"></div>
         </div>
     )
 }
-
-

@@ -1,5 +1,5 @@
-import LoginPage from "@/Components/LoginPage/page";
-import SignUp from "@/Components/SignUp/page";
+import LoginPage from "@/app/LoginPage/page";
+import SignUp from "@/app/SignUp/page";
 
 export default function Home() {
   return (

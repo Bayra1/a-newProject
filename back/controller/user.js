@@ -50,7 +50,6 @@ const deleteUser = async (req, res) => {
         const queryText = `DELETE FROM users WHERE name=$1 OR email=$2 OR id=$3`
         await pool.query(queryText, [name, email, id]);
         res.send('A delete command is successfully completed')
-        res.send("A budding process")
     } catch (error) {
         console.log('something wrong', error);
         res.send("failed to be successful")
@@ -70,13 +69,44 @@ const updateUser = async (req, res) => {
     }
 }
 
-const DeleteAllUser = async (req, res) => {
-    const { name, email, id } = req.body
+const LoginUser = async (req, res) => {
+    console.log(req.body);
+    const {email, password} = req.body
     try {
-        const queryText = `DELETE FROM `
+        const queryText = `SELECT * FROM users WHERE email='${email}'`
+        const ExUser = await pool.query(queryText)
+        if (ExUser.rows.length !== 0) {
+           return res.send('ExUser')
+        } 
+        res.send({ExUser: ExUser.rows})
     } catch (error) {
-        console.log("something wrong");
-    }
+        console.log("Failed to find an existing user", error);
+        console.error("Failed to find an existing user", error);
+    } 
 }
 
-export { getusers, createUser, getOneUser, deleteUser, updateUser }
+export { getusers, createUser, getOneUser, deleteUser, updateUser, LoginUser }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
