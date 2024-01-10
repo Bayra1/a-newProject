@@ -7,26 +7,23 @@ const backEnd = "http://localhost:8003/users"
 
 
 export default function SignUp() {
+
     const [name, setName] = useState()
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [rePassword, setRePassword] = useState()
     const [showPassword, setShowPassword] = useState(false)
-    // const [showRePassword, setShowRePassword] = useState(false)
+    const [error, setError] = useState('')
     const router = useRouter()
 
     const VisibilityPassword = () => {
         setShowPassword(!showPassword)
     }
-    // const ReVisbilityReP = () => {
-    //     setShowRePassword(!showRePassword)
-    // }
 
     const HandleSignIn = async () => {
-
         try {
-            if (name !== "" || name !== null) {
-                console.log(password);
+            if (name !== undefined && email !== undefined) {
+                console.log(name, email);
                 const userData = await axios.post(backEnd, {
                     name,
                     email,
@@ -36,8 +33,13 @@ export default function SignUp() {
                 console.log("This is Data of user", userData.data);
                 router.push('/Loading')
             } else {
-                alert("The form has to be filled")
+                setError("All forms should not be empty")
+                console.log('looks like failed to register');
+                setTimeout(() => {
+                    setError('')
+                }, 2000)
             }
+
         } catch (error) {
             console.log("something goes wrongly");
         }
@@ -84,23 +86,7 @@ export default function SignUp() {
                             <div className="absolute mt-[10px] ml-[350px]"
                                 onClick={VisibilityPassword}>{showPassword ? "👁️" : "👁️‍🗨️"}</div>
                         </div>
-                        
-                        {/* <div className="relative">
-                            <input
-                                type={showRePassword ? "text" : "password"}
-                                className="w-[390px] h-[48px] p-[16px] border rounded-2xl"
-                                placeholder="Re-Password"
-                                value={rePassword}
-                                onChange={(e) => setRePassword(e.target.value)}
-                            />
-                            <div
-                                className="absolute top-1/2 transform -translate-y-1/2 right-2 cursor-pointer"
-                                onClick={ReVisbilityReP}
-                            >
-                                {showRePassword ? "👁️" : "👁️‍🗨️"}
-                            </div>
-                        </div> */}
-
+                        <div classname="text-red-400 mt-2">{error}</div>
                     </div>
                     <button className="mt-[40px]  bg-blue-600 rounded-2xl w-[384px] h-[48px] justify-center items-center p-[16px]" onClick={HandleSignIn}>Sign in</button>
                 </div>

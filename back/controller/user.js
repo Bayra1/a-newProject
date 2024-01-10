@@ -71,7 +71,7 @@ const updateUser = async (req, res) => {
 
 const LoginUser = async (req, res) => {
     console.log(req.body);
-    const {email, password} = req.body
+    const {email} = req.body
     try {
         const queryText = `SELECT * FROM users WHERE email='${email}'`
         const ExUser = await pool.query(queryText)
@@ -81,17 +81,10 @@ const LoginUser = async (req, res) => {
         res.send({ExUser: ExUser.rows})
     } catch (error) {
         console.log("Failed to find an existing user", error);
-        console.error("Failed to find an existing user", error);
     } 
 }
 
 export { getusers, createUser, getOneUser, deleteUser, updateUser, LoginUser }
-
-
-
-
-
-
 
 
 

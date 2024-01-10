@@ -31,7 +31,7 @@ export default function ThirdOne() {
                     </svg>
                 </div>
                 <div className="flex mt-[25px] mt-[25px] mb-[25px] justify-center">
-                    You totally nailed it !
+                    Your Detail has been registered in our DataBase !
                 </div>
                 <div className="flex justify-center">
                     <button

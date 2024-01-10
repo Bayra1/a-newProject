@@ -10,6 +10,8 @@ export default function LoginPage() {
     const [password, setPassword] = useState()
     const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
+
     const router = useRouter()
 
     const VisibilityPassword = () => {
@@ -25,6 +27,7 @@ export default function LoginPage() {
 
     const HandleSignIn = async () => {
         try {
+            setIsLoading(true)
             const userData = await axios.post(backEnd, {
                 email,
                 password,
@@ -32,16 +35,22 @@ export default function LoginPage() {
 
             if (userData.data === 'ExUser') {
                 NavigateDashBoard();
+
             } else {
-                setError('The information doesnt match')
+                setError('The given user cannot find')
                 console.log(userData.data, "this is user data");
+                setTimeout(() => {
+                    setError('')
+                }, 2000)
             }
 
         } catch (error) {
             setError('error', error);
             setTimeout(() => {
-                setError("Error");
+                setError('');
             }, 1000);
+        } finally {
+            setIsLoading(false)
         }
     };
 
@@ -64,23 +73,32 @@ export default function LoginPage() {
                     <div className="text-center text-base font-normal font-serif mt-2 mb-[40px]">Welcome Back, Please enter your detail!</div>
 
                     <div className="flex flex-col gap-[25px] ">
-
-                        <input className="flex h-[48px] p-[16px] items-center border rounded-2xl"
-                            placeholder="Email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-
-                        <div className="flex h-[48px]">
-                            <input
-                                type={showPassword ? "text" : "password"}
-                                className="flex w-[400px] h-[48px] relative p-[16px] items-center border rounded-2xl"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <div className="absolute mt-[10px] ml-[350px]"
-                                onClick={VisibilityPassword}>{showPassword ? "👁️" : "👁️‍🗨️"}</div>
+                        <div className="flex flex-col gap-[25px] ">
+                            {isLoading ? (
+                                <div className="ml-[150px]">
+                                    <span className="loading loading-dots loading-lg"></span>
+                                </div>
+                            ) : (
+                                <>
+                                    <input
+                                        className="flex h-[48px] p-[16px] items-center border rounded-2xl"
+                                        placeholder="Email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    />
+                                    <div className="flex h-[48px] relative">
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            className="flex w-[400px] h-[48px] relative p-[16px] items-center border rounded-2xl"
+                                            placeholder="Password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                        <div className="absolute mt-[10px] ml-[350px]"
+                                            onClick={VisibilityPassword}>{showPassword ? "👁️" : "👁️‍🗨️"}</div>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                     <div className="flex flex-col">
