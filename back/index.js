@@ -41,6 +41,29 @@ app.post("/createTable", async (_, res) => {
         res.send("Failed to create the table");
     }
 });
+
+app.post("/createCategory", async(_, res) => {
+  try {
+    const tableQueryText = `
+    CREATE TABLE IF NOT EXISTS category (
+      id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+      name VARCHAR(225) NOT NULL,
+      description TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      category_image TEXT
+    )`;
+    await pool.query(tableQueryText);
+    res.send('Category Table has been created successfully!')
+  } catch (error) {
+    console.log('error for creating category');
+    res.send('Failed to create Category Table')
+  }
+})
+
+
+
+
 // In case deleting an unnecessary Table
 app.post("/deleteTable", async (_, res) => {
     try {

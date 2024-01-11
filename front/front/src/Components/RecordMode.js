@@ -1,5 +1,32 @@
 'use client'
+import { data } from "autoprefixer";
+import { useState } from "react";
+
 export default function RecordMode() {
+    const recordsData = []
+    const [selectedEmoji, setSelectedEmoji] = useState('')
+
+    const renderRecord = (emoji, userInput) => {
+        return (
+            <div>
+                <div>{emoji}</div>
+                <div>{userInput}</div>
+            </div>
+        )
+    }
+
+    const smilingEmoji = '\u{1F603}';
+    const earth = '\u{1F30D}';
+    const catFace = '\u{1F431}';
+    const rocket = '\u{1F680}';
+    const party = '\u{1F389}';
+    const flower = '\u{1F33A}';
+
+   const AddCategory = () => {
+
+   }
+
+
     return (
         <div className="flex bg-white p-3 ml-[50px] border-solid border-red-700 w-[250px] flex-col">
 
@@ -54,41 +81,58 @@ export default function RecordMode() {
                     <div className="text-black text-base font-bold">Category</div>
                     <button className="btn btn-xs">Clear</button>
                 </div>
+                <div id="unique"></div>
 
-
-                {/* Open the modal using document.getElementById('ID').showModal() method */}
-                <button className="flex items-center mt-3 gap-3" onClick={() => document.getElementById('my_modal_1').showModal()}>
-                    <div className="text-2xl text-green-400">
+                {/* Model */}
+                <button className="flex gap-3 items-center" onClick={() => document.getElementById('my_modal_4').showModal()}>
+                    <div className="text-2xl text-blue-400">
                         &#43;
                     </div>
                     Add Category
                 </button>
-                <dialog id="my_modal_1" className="modal">
-                    <div className="modal-box bg-slate-800">
 
-                        <div className="flex w-full justify-between gap-3">
-                            <h3 className="font-bold text-lg">Add Category</h3>
-                            <form method="dialog modal-action">
-                                <button className="w-7 h-7 bg-white rounded-full">&#215;</button>
-                            </form>
+                <dialog id="my_modal_4" className="modal">
+                    <div className="modal-box w-11/12 max-w-5xl">
+
+                        <div className="justify-center border-b-slate-400 border-b-2 flex items-center justify-between">
+                            <div className="text-xl font-bold">Add Category</div>
+                            <div className="modal-action">
+                                <form method="dialog">
+                                    <button className="w-8 h-8 rounded-full flex justify-center mb-5 items-center bg-blue-500">&#10005;</button>
+                                </form>
+                            </div>
                         </div>
 
-                        {/* Content of Model */}
-                       
+                        <div className="w-full justify-between mt-5 flex">
+                            <div className="w-[84px] h-[34px]">
+                                <select
+                                value={selectedEmoji}
+                                onChange={(e) => setSelectedEmoji(e.target.value)}
+                                 className="p-2 rounded-full flex">
+                                    <option>&#10070;</option>
+                                    <option value={smilingEmoji}>{smilingEmoji}</option>
+                                    <option value={earth}>{earth}</option>
+                                    <option value={catFace}>{catFace}</option>
+                                    <option value={rocket}>{rocket}</option>
+                                    <option value={party}>{party}</option>
+                                    <option value={flower}>{flower}</option>
+                                </select>
+                            </div>
+                            <div className="p-2">
+                               <input className="p-3 rounded" placeholder="Name ?"
+                               ></input>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={AddCategory}
+                            className="flex items-center btn w-full mt-5 bg-green-400 rounded p-3">
+                            <div>&#43;</div>
+                            Add Category
+                        </button>
 
                     </div>
                 </dialog>
-
-
-
-
-
-                {/* <button className="flex gap-2 mt-3 items-center">
-                    <div className="text-2xl text-green-400">
-                        &#43;
-                    </div>
-                    Add Category
-                </button> */}
 
 
             </div>
