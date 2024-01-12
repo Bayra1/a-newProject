@@ -3,7 +3,7 @@ import RecordMode from "@/Components/RecordMode";
 
 export default function Record() {
     return (
-        <div>
+        <div className="bg-slate-200">
             <DashNav/>
             <RecordMode/>
         </div>

@@ -17,8 +17,8 @@ export default function DashNav() {
     }
 
     return (
-        <div className="flex justify-center">
-            <div className="w-6/12 navbar bg-base-100">
+        <div className="flex w-full justify-center">
+            <div className="navbar bg-slate-300 ml-[50px] mr-[50px]">
 
                 <div className="flex-1 flex gap-5">
                     <svg xmlns="http://www.w3.org/2000/svg" width="29" height="28" viewBox="0 0 29 28" fill="none">

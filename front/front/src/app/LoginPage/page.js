@@ -45,7 +45,7 @@ export default function LoginPage() {
             }
 
         } catch (error) {
-            setError('error', error);
+            setError('something wrong', error);
             setTimeout(() => {
                 setError('');
             }, 1000);
@@ -123,15 +123,6 @@ export default function LoginPage() {
         </div>
     )
 }
-
-
-
-
-
-
-
-
-
 
 
 
