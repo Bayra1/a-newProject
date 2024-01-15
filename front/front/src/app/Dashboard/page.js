@@ -5,7 +5,7 @@ export default function DashBoard() {
     return (
         <div className="flex flex-col justify-center">
             <DashNav/>
-            {/* <OutMenuIn/> */}
+            <OutMenuIn/>
         </div>
     )
 }
