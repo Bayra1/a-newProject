@@ -1,4 +1,6 @@
-export default function SecondOne() {
+import SecondOne from "@/Components/SecondStep";
+
+export default function Second() {
     return (
         <div>
             <SecondOne/>

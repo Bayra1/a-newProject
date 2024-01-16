@@ -1,9 +1,43 @@
+'use client'
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import axios from "axios";
+
+const backEnd = "http://localhost:8003/users/one"
+
 export default function SecondOne() {
+    const [country, setCountry] = useState()
+    const [error, setError] = useState('')
     const router = useRouter()
-    const ShiftSecond = () => {
-        router.push('ThirdStep')
+    const Mongolia = 'Mongolia';
+    const Russia = 'Russia';
+    const Japan = 'Japan';
+    const Korea = 'Korea';
+
+    const ShiftSecond = async () => {
+        try {
+            console.log('this is user country', userCountry);
+            let userCountry = await axios.post(backEnd, { country })
+            userCountry = response.data
+            if (userCountry.country !== null && '') {
+                // router.push('/ThirdStep')
+                console.log('this is user country', userCountry);
+            } else {
+                setError('Country must be chosen')
+            }
+        } catch (error) {
+            setTimeout(() => {
+                setError('')
+            }, 2000)
+            console.log('Failed on Country', error);
+        }
     }
+
+    const handleCountryChange = (e) => {
+        setCountry(e.target.value);
+    };
+
+
     return (
         <div className="flex flex-col items-center">
             <div className="mt-[40px]">
@@ -33,15 +67,16 @@ export default function SecondOne() {
                     Select Your Country
                 </div>
                 <div className="justify-center w-[384px] gap-5 flex-col items-center flex">
-                    <select className="select select-warning w-full max-w-xs">
+                    <div>{error}</div>
+                    <select onChange={handleCountryChange} value={country} className="select select-warning w-full max-w-xs">
                         <option disabled selected>what's your Country ?</option>
-                        <option>Mongolian</option>
-                        <option>Japan</option>
-                        <option>Russia</option>
-                        <option>Korea</option>
+                        <option value={Mongolia}>{Mongolia}</option>
+                        <option value={Japan}>{Japan}</option>
+                        <option value={Russia}>{Russia}</option>
+                        <option value={Korea}>{Korea}</option>
                     </select>
                 </div>
-                <div className="flex justify-center">
+                <div className="flex mt-[50px] justify-center">
                     <button
                         onClick={ShiftSecond}
                         className="w-[384px] h-[48px] bg-sky-500 text-slate-100 bg-sky-500 hover:bg-sky-700 rounded-xl">Confirm</button>

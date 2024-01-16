@@ -21,7 +21,7 @@ pool.query(enableUuidOsspExtensionQuery, (err, _) => {
   }
 });
 
-app.post("/createTable", async (_, res) => {
+app.post("/createUserTable", async (_, res) => {
   try {
     const tableQueryText = `
         CREATE TABLE IF NOT EXISTS users (
@@ -29,9 +29,9 @@ app.post("/createTable", async (_, res) => {
         name VARCHAR(255) NOT NULL,
         email VARCHAR(255) NOT NULL,
         password VARCHAR(255),
-        avatar_img BYTEA,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        country VARCHAR(255) NOT NULL,
         currency_type TEXT DEFAULT 'MNT'
         )`;
     await pool.query(tableQueryText);
@@ -82,9 +82,6 @@ app.post("/createTransactionTable", async (_, res) => {
     res.send('Failed to making TransactionTable')
   }
 })
-
-
-
 
 // In case deleting an unnecessary Table
 app.post("/deleteTable", async (_, res) => {

@@ -33,13 +33,13 @@ const getOneUser = async (req, res) => {
 // Creating a new user
 const createUser = async (req, res) => {
     console.log(req.body);
-    const { name, email, password} = req.body
+    const { name, email, password, country} = req.body
     try {
-        const queryText = "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *"
-        const result = await pool.query(queryText, [name, email, password])
+        const queryText = "INSERT INTO users (name, email, password, country) VALUES ($1, $2, $3, $4) RETURNING *"
+        const result = await pool.query(queryText, [name, email, password, country])
         res.send(result.rows[0])
     } catch (error) {
-        console.log(error);
+        console.log('error to post a user', error);
         res.send("falied")
     }
 }

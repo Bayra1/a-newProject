@@ -17,7 +17,7 @@ export default function DashNav() {
     }
 
     return (
-        <div className="flex w-full justify-center">
+        <div className="flex justify-center">
             <div className="navbar bg-slate-300 ml-[50px] mr-[50px]">
 
                 <div className="flex-1 flex gap-5">

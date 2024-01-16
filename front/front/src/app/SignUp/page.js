@@ -28,10 +28,9 @@ export default function SignUp() {
                     name,
                     email,
                     password,
-                    rePassword
                 });
                 console.log("This is Data of user", userData.data);
-                router.push('/Loading')
+                // router.push('/Loading')
             } else {
                 setError("All forms should not be empty")
                 console.log('looks like failed to register');
@@ -41,7 +40,7 @@ export default function SignUp() {
             }
 
         } catch (error) {
-            console.log("something goes wrongly");
+            console.log("something goes wrongly", error);
         }
     }
 

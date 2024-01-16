@@ -4,6 +4,7 @@ export default function AddRecords() {
     const [isExpense, setIsExpense] = useState(false)
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')
+
     return (
         <div className="w-full">
             <button className="btn w-full border-none h-[32px] bg-blue-600 text-white text-base" onClick={() => document.getElementById('my_modal_5').showModal()}>
@@ -83,7 +84,7 @@ export default function AddRecords() {
                                     </div>
                                 </div>
                                 <button
-                                    className={`bg-blue-600 btn w-[350px] mt-2 ml-2 text-white border-none ${isIncome ? 'bg-blue-600' : 'bg-blue-600'} ${isExpense ? 'bg-green-600' : 'bg-blue-600'}`}>Add Record
+                                   className={`bg-blue-600 btn w-[350px] mt-2 ml-2 text-white border-none ${isIncome ? 'bg-blue-600' : 'bg-blue-600'} ${isExpense ? 'bg-green-600' : 'bg-blue-600'}`}>Add Record
                                 </button>
                             </div>
                         </div>
