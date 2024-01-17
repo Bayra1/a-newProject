@@ -4,6 +4,7 @@ import bp from "body-parser";
 import { pool } from "./db.js";
 import { user } from "./router/user.js";
 import cors from "cors"
+import { transaction } from "./router/transactions.js";
 
 const app = express()
 const PORT = 8003;
@@ -11,6 +12,7 @@ dotenv.config()
 app.use(cors())
 app.use(bp.json())
 app.use('/users', user)
+app.use('/transactions',transaction)
 
 const enableUuidOsspExtensionQuery = 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp"';
 pool.query(enableUuidOsspExtensionQuery, (err, _) => {
@@ -69,11 +71,11 @@ app.post("/createTransactionTable", async (_, res) => {
       user_id UUID REFERENCES users(id),
       name TEXT,
       amount REAL NOT NULL,
-      transaction_type ENUM('INC', 'EXP'),
+      transaction_type VARCHAR(3) CHECK (transaction_type IN ('INC', 'EXP')),
       description TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      category_id uuid REFERENCES your_category_table(id)
+      category_id uuid REFERENCES category(id)
     )`;
     await pool.query(tableQueryText);
     res.send('Your Transactions Table has been made')
@@ -94,7 +96,6 @@ app.post("/deleteTable", async (_, res) => {
     res.send("something wrong for deleting")
   }
 });
-
 
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`)
