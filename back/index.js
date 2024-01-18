@@ -1,9 +1,9 @@
 import express, { query, response } from "express";
 import dotenv from "dotenv"
 import bp from "body-parser";
+import cors from "cors"
 import { pool } from "./db.js";
 import { user } from "./router/user.js";
-import cors from "cors"
 import { transaction } from "./router/transactions.js";
 
 const app = express()
@@ -69,9 +69,9 @@ app.post("/createTransactionTable", async (_, res) => {
     CREATE TABLE IF NOT EXISTS transactions (
       id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
       user_id UUID REFERENCES users(id),
-      name TEXT,
+      note TEXT,
       amount REAL NOT NULL,
-      transaction_type VARCHAR(3) CHECK (transaction_type IN ('INC', 'EXP')),
+      transaction_type VARCHAR(25) CHECK (transaction_type IN ('INC', 'EXP')),
       description TEXT,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -88,7 +88,7 @@ app.post("/createTransactionTable", async (_, res) => {
 // In case deleting an unnecessary Table
 app.post("/deleteTable", async (_, res) => {
   try {
-    const queryText = `DROP TABLE IF EXISTS users`;
+    const queryText = `DROP TABLE IF EXISTS transactions `;
     await pool.query(queryText)
     res.send({ message: `Table deleted successfully` });
   } catch (error) {
@@ -100,3 +100,5 @@ app.post("/deleteTable", async (_, res) => {
 app.listen(PORT, () => {
   console.log(`Listening on ${PORT}`)
 })
+
+

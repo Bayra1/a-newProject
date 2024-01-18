@@ -1,4 +1,4 @@
-import { createTransaction, deleteTransaction, takeOneTransaction, takeTransactions } from "../controller/transactions.js";
+import { createTransaction, deleteTransaction, takeOneTransaction, takeTransactions, updateTransaction } from "../controller/transactions.js";
 import express  from "express";
 import { user } from "./user.js";
 
@@ -10,5 +10,6 @@ transaction.route('/')
 transaction.route('/transaction')
     .get(takeOneTransaction)
     .delete(deleteTransaction)
+    .put(updateTransaction)
 
 export {transaction};

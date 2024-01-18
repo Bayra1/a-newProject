@@ -51,8 +51,8 @@ export default function LoginPage() {
             }, 1000);
         } finally {
             setIsLoading(false)
-           const email = ''
-           const password = ''
+            const email = ''
+            const password = ''
         }
     };
 
@@ -125,19 +125,3 @@ export default function LoginPage() {
         </div>
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
