@@ -21,10 +21,6 @@ export default function LoginPage() {
     const GoSignPage = () => {
         router.push('/SignUp')
     }
-    const NavigateDashBoard = () => {
-        router.push('/Dashboard')
-    }
-
     const HandleSignIn = async () => {
         try {
             setIsLoading(true)
@@ -32,10 +28,11 @@ export default function LoginPage() {
                 email,
                 password,
             });
-
-            if (userData.data === 'ExUser') {
-                NavigateDashBoard();
-
+           const USERDATA = userData.data 
+            if (userData.data && (USERDATA.id || USERDATA.email)) {
+                localStorage.setItem('user',JSON.stringify({...USERDATA}))
+                console.log(USERDATA);
+                router.push(`/Dashboard/${USERDATA.email}`)
             } else {
                 setError('The given user cannot find')
                 console.log(userData.data, "this is user data");

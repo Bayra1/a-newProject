@@ -1,9 +1,12 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-import { useState } from "react";
+const backEnd = "http://localhost:8003/categories"
+
 export default function AppendCategory() {
     const [recordsData, setRecordsData] = useState([])
     const [selectedEmoji, setSelectedEmoji] = useState('')
-    const [nameCategory, setNameCategory] = useState('')
+    const [name, setname] = useState('')
     const [minNum, setMinNum] = useState(0)
     const smilingEmoji = '\u{1F603}';
     const earth = '\u{1F30D}';
@@ -11,32 +14,50 @@ export default function AppendCategory() {
     const rocket = '\u{1F680}';
     const party = '\u{1F389}';
     const flower = '\u{1F33A}';
+    const userData = JSON.parse(localStorage.getItem('user'))
+    console.log(userData);
 
-    const renderRecord = (selectedEmoji, nameCategory) => {
+    useEffect(() => {
+        const storedRecordsData = JSON.parse(localStorage.getItem("recordsData"));
+        if (storedRecordsData) {
+            setRecordsData(storedRecordsData);
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("recordsData", JSON.stringify(recordsData));
+    }, [recordsData]);
+
+    const renderRecord = (selectedEmoji, name) => {
         return (
             <div key={visualRecors}>
                 <div>{selectedEmoji}</div>
-                <div className="text-black">{nameCategory}</div>
+                <div className="text-black">{name}</div>
             </div>
-        )
-    }
+        );
+    };
 
-
-    const AddCategory = () => {
-        if (selectedEmoji && nameCategory) {
-            console.log(selectedEmoji, nameCategory);
-            const newRecord = renderRecord(selectedEmoji, nameCategory)
-            setRecordsData([...recordsData, newRecord])
-
-            console.log('this is setRecords', newRecord);
-
+    const AddCategory = async () => {
+        try {
+          const trackCategory = await axios.post(backEnd, {
+            name: name,
+            user_id: userData.id,
+          });
+    
+          if (selectedEmoji && name) {
+            const newRecord = renderRecord(selectedEmoji, name);
+            setRecordsData([...recordsData, newRecord]);
+    
             document.getElementById('my_modal_4').close();
-
+    
             setSelectedEmoji('');
-            setNameCategory('');
+            setname('');
+          }
+        } catch (error) {
+          console.log('error for adding category', error);
         }
-    }
-
+      };
+    
 
     return (
         <div>
@@ -96,8 +117,8 @@ export default function AppendCategory() {
                         <div className="p-2">
                             <input className="p-3 bg-slate-200 rounded"
                                 placeholder="Name ?"
-                                value={nameCategory}
-                                onChange={(e) => setNameCategory(e.target.value)}
+                                value={name}
+                                onChange={(e) => setname(e.target.value)}
                             ></input>
                         </div>
                     </div>

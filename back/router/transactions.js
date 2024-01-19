@@ -1,6 +1,5 @@
 import { createTransaction, deleteTransaction, takeOneTransaction, takeTransactions, updateTransaction } from "../controller/transactions.js";
 import express  from "express";
-import { user } from "./user.js";
 
 const transaction = express.Router();
 
@@ -13,3 +12,4 @@ transaction.route('/transaction')
     .put(updateTransaction)
 
 export {transaction};
+

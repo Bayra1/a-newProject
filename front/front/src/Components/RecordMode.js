@@ -29,9 +29,9 @@ export default function RecordMode() {
     const visualData = (note, amount, category) => {
         return (
             <div key={category}>
-                <div>{amount}</div>
-                <div>{category}</div>
-                <div>{note}</div>
+                <div className="text-black">{amount}</div>
+                <div className="text-black">{category}</div>
+                <div className="text-black">{note}</div>
             </div>
         );
     };
@@ -44,7 +44,7 @@ export default function RecordMode() {
                 description: note,
                 time: new Date().toLocaleDateString(),
                 category,
-                date
+                created_at: new Date().toLocaleDateString(),
             });
             console.log(userRecord.data);
             if (amount !== '' && category !== '' && note !== '') {
@@ -101,7 +101,7 @@ export default function RecordMode() {
                                 <div className="mt-5 w-[396px] flex flex-col">
                                     <div className="flex gap-3 bg-slate-200 rounded-3xl w-fit">
                                         <button
-                                            style={{ background: userRecord.transaction_type === "INC" ? '#0166FF' : '#F54949' }}
+                                            style={{ background: userRecord.transaction_type === isIncome ? 'bg-green-400' : '#F54949' }}
                                             onClick={() => {
                                                 setIsIncome(true);
                                                 setIsExpense(false);
@@ -111,7 +111,7 @@ export default function RecordMode() {
                                             Income
                                         </button>
                                         <button
-                                            style={{ background: userRecord.transaction_type === "EXP" ? '#F54949' : '#0166F' }}
+                                            style={{ background: userRecord.transaction_type === isExpense ? '#F54949' : '#0166F' }}
                                             onClick={() => {
                                                 setIsExpense(true);
                                                 setIsIncome(false);
@@ -225,3 +225,6 @@ export default function RecordMode() {
         </div>
     );
 }
+
+
+

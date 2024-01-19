@@ -75,10 +75,11 @@ const LoginUser = async (req, res) => {
     try {
         const queryText = `SELECT * FROM users WHERE email='${email}'`
         const ExUser = await pool.query(queryText)
+        const user = ExUser.rows[0]
         if (ExUser.rows.length !== 0) {
-           return res.send('ExUser')
+           return res.json({...user})
         } 
-        res.send({ExUser: ExUser.rows})
+        res.send({...user})
     } catch (error) {
         console.log("Failed to find an existing user", error);
     } 
